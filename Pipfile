@@ -1,0 +1,12 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+
+[packages]
+"b361d2b" = {path = "/home/dvc/repos/migen", editable = true}
+
+[requires]
+python_version = "3.7"

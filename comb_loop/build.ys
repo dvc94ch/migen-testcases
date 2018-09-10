@@ -1,0 +1,42 @@
+read_verilog comb_loop.v;
+prep -top top_nb;
+design -stash nb;
+
+read_verilog comb_loop.v;
+prep -top top_b;
+design -stash b;
+
+read_verilog comb_loop.v;
+prep -top top_b_verilator;
+design -stash bv;
+
+read_verilog comb_loop.v;
+prep -top top;
+design -stash bm;
+
+design -copy-from nb -as nb top_nb;
+design -copy-from b -as b top_b;
+
+equiv_make nb b equiv1;
+prep -flatten -top equiv1;
+equiv_simple -seq 5;
+equiv_induct -seq 5;
+equiv_status -assert;
+
+design -copy-from b -as b top_b;
+design -copy-from bv -as bv top_b_verilator;
+
+equiv_make b bv equiv2;
+prep -flatten -top equiv2;
+equiv_simple -seq 5;
+equiv_induct -seq 5;
+equiv_status -assert;
+
+design -copy-from b -as b top_b;
+design -copy-from bm -as bm top;
+
+equiv_make b bm equiv3;
+prep -flatten -top equiv3;
+equiv_simple -seq 5;
+equiv_induct -seq 5;
+equiv_status -assert;
